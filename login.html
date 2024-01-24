@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入 - 2023 六角學院 Vue 直播班 - 第四週作業</title>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css' integrity='sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==' crossorigin='anonymous'/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <template v-if="isLoading">
+            <Loader></Loader>
+        </template>
+        <div class="container h-100">
+            <div class="row justify-content-center align-items-center h-100">
+                <div class="col-md-6">
+                    <div class="p-5 rounded-2 shadow">
+                        <h2 class="text-center mb-5">管理員登入</h2>
+                        <div class="form-floating mb-4">
+                            <input type="text" id="username" class="form-control" placeholder="帳號"
+                                   v-model.trim="user.username">
+                            <label for="username" class="form-label">帳號</label>
+                        </div>
+                        <div class="form-floating mb-4">
+                            <input :type="isPwdVisible ? 'text' : 'password'" id="password" class="form-control"
+                                   placeholder="密碼" v-model="user.password">
+                            <label for="password" class="form-label">密碼</label>
+                            <button class="btn border-0 btn-display-pwd" @click="isPwdVisible = !isPwdVisible"><span class="material-icons float-end">
+                            {{ isPwdVisible ? 'visibility' : 'visibility_off' }}</span></button>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-secondary px-4 mt-4" @click="login" :disabled="isLoginDisabled">登入</button>
+                            <div class="alert bg-light mt-4 mb-0" v-if="message.text">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <span class="material-icons me-2" :class="message.color" v-if="message.icon">{{ message.icon }}</span>
+                                    {{ message.text }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.5/axios.min.js' integrity='sha512-TjBzDQIDnc6pWyeM1bhMnDxtWH0QpOXMcVooglXrali/Tj7W569/wd4E8EDjk1CwOAOPSJon1VfcEt1BI4xIrA==' crossorigin='anonymous'></script>
+    <script src="./login.js" type="module"></script>
+</body>
+</html>
