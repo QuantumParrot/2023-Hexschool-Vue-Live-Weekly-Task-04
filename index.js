@@ -3,23 +3,24 @@ import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.13/vue
 // import components
 
 import Pagination from './components/pagination.js';
-import Loader from './components/Loader.js';
+import Loader from './components/loader.js';
+
+import ProductModal from './components/productModal.js';
+import ConfirmModal from './components/confirmModal.js';
 
 // import mixins
 
 import api from './mixins/api.js';
 import alert from './mixins/alert.js';
 
-// declare modal
-
-let productModal = null;
-let confirmModal = null;
-
 const app = createApp({
 
     data() {
 
         return {
+
+            productModal: '',
+            confirmModal: '',
 
             products: [],
 
@@ -53,7 +54,7 @@ const app = createApp({
     
     mixins: [ api, alert ],
 
-    components: { Pagination },
+    components: { Loader, Pagination, ProductModal, ConfirmModal },
 
     computed: {
 
@@ -156,6 +157,7 @@ const app = createApp({
         getProductData() {
 
             this.isLoading = true;
+            this.display = {};
 
             axios.get(`${this.apiUrl}/api/${this.path}/admin/products/all`)
             .then(res => {
@@ -183,6 +185,12 @@ const app = createApp({
 
         switchPage(num) { this.currentPage = num },
 
+        // 初始化互動視窗
+
+        initProductModal(modal) { this.productModal = modal },
+
+        initConfirmModal(modal) { this.confirmModal = modal },
+
         // 打開互動視窗
 
         openModal(type, item) {
@@ -201,13 +209,13 @@ const app = createApp({
                 imagesUrl: [],
             };
 
-            if (type === 'remove') { confirmModal.show() } else { productModal.show() }
+            if (type === 'remove') { this.confirmModal.show() } else { this.productModal.show() }
 
         },
 
         // 關閉互動視窗
 
-        hideModal(type) { if (type === 'remove') { confirmModal.hide() } else { productModal.hide() } },
+        hideModal(type) { if (type === 'remove') { this.confirmModal.hide() } else { this.productModal.hide() } },
 
         // 儲存商品資料
 
@@ -314,116 +322,6 @@ const app = createApp({
     },
 
     mounted() { this.checkAdmin() },
-
-});
-
-app.component('Loader', Loader);
-
-app.component('ProductModal', {
-
-    template: '#product-modal',
-
-    props: ['devMode', 'buttonStatus', 'productTags', 'tempProduct'],
-
-    data() {
-
-        return { 
-            
-            product: {},
-            displayUploadForm: false,
-
-            imagesUrl: [],
-            tags: [],
-
-        }
-
-    },
-
-    mixins: [ api, alert ],
-
-    watch: {
-
-        tempProduct(current) { 
-            
-            // console.log(cur); // 除錯用，可以分別觀察傳值、傳參考時觸發監聽的時機
-
-            this.product = { ...current };
-
-            this.imagesUrl = Array.isArray(current.imagesUrl) ? [ ...current.imagesUrl ] : [];
-            this.tags = Array.isArray(current.tags) ? [ ...current.tags ] : [];
-        
-        },
-
-    },
-
-    methods: {
-
-        hideModal() { productModal.hide() },
-
-        removeInput(key, index) { this[key].splice(index, 1) },
-
-        saveProduct() {
-
-            this.product.imagesUrl = this.imagesUrl;
-            this.product.tags = this.tags;
-
-            const isBlank = Object.keys(this.product)
-                            .some(key => key !== 'is_enabled' && !Array.isArray(key) && !this.product[key]);
-
-            if (isBlank) { this.toastAlert('請確實填寫所有欄位', 'warning') }
-            else { 
-                
-                this.$emit('save-product', this.product);
-            
-            }
-        
-        },
-
-        uploadImage() {
-
-            const file = this.$refs.image.files[0];
-
-            if (file) {
-
-                const formData = new FormData();
-                formData.append('file-to-upload', file);
-
-                axios.post(`${this.apiUrl}/api/${this.path}/admin/upload`, formData)
-                .then(res => {
-
-                    console.log(res);
-                    this.toastAlert('圖片上傳成功！', 'success');
-                    this.imagesUrl.push(res.data.imageUrl);
-                    file.length = 0;
-
-                })
-                .catch(error => { this.errorAlert(error, 'error') })
-
-            }
-
-        }
-
-    },
-
-    mounted() { productModal = new bootstrap.Modal(document.querySelector('#normal-modal'), { backdrop: 'static' }) },
-
-});
-
-app.component('ConfirmModal', {
-
-    template: '#confirm-modal',
-
-    props: ['tempProduct', 'buttonStatus'],
-
-    methods: {
-
-    hideModal() { confirmModal.hide() },
-
-    removeProduct() { this.$emit('remove-product') },
-
-    },
-
-    mounted() { confirmModal = new bootstrap.Modal(document.querySelector('#remove-modal')) }
 
 });
 
