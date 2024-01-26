@@ -8,6 +8,8 @@ import Loader from './components/loader.js';
 import ProductModal from './components/productModal.js';
 import ConfirmModal from './components/confirmModal.js';
 
+import DisplayProductContent from './components/displayProductContent.js';
+
 // import mixins
 
 import api from './mixins/api.js';
@@ -54,7 +56,7 @@ const app = createApp({
     
     mixins: [ api, alert ],
 
-    components: { Loader, Pagination, ProductModal, ConfirmModal },
+    components: { Loader, Pagination, ProductModal, ConfirmModal, DisplayProductContent },
 
     computed: {
 
@@ -311,9 +313,7 @@ const app = createApp({
 
             if (Array.isArray(product.imagesUrl)) {
 
-            // 之前上傳商品資料時丟了很多空值在 imagesUrl 裡面，這裡暫時先這樣處理，之後再補上排除空值的函式
-
-            this.display.imagesUrl = [ product.imageUrl, ...product.imagesUrl.filter(i => i) ];
+            this.display.imagesUrl = [ product.imageUrl, ...product.imagesUrl ];
                 
             } else { this.display.imagesUrl = [ product.imageUrl ] }
 

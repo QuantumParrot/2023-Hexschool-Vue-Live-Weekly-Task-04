@@ -46,8 +46,10 @@ export default {
 
         saveProduct() {
 
-            this.product.imagesUrl = this.imagesUrl;
-            this.product.tags = this.tags;
+            // 新增了空欄位就當成沒有新增
+
+            this.product.imagesUrl = this.imagesUrl.filter(i => i);
+            this.product.tags = this.tags.filter(i => i);
 
             const isBlank = Object.keys(this.product)
                             .some(key => key !== 'is_enabled' && !Array.isArray(key) && !this.product[key]);
@@ -121,7 +123,7 @@ export default {
                                     <div class="d-flex flex-column gap-3">
                                         <template v-for="(img, idx) in imagesUrl">
                                             <div class="position-relative">
-                                                <input type="text" class="form-control pe-5" :key="img" v-model="imagesUrl[idx]">
+                                                <input type="text" class="form-control pe-5" :key="img" v-model.trim="imagesUrl[idx]">
                                                 <button type="button" class="btn border-0 btn-remove" @click="removeInput('imagesUrl', idx)">
                                                     <span class="material-icons">clear</span>
                                                 </button>
@@ -194,7 +196,7 @@ export default {
                                     <div class="row row-cols-2 gy-3">
                                         <div class="col" v-for="(tag, idx) in tags" :key="tag">
                                             <div class="position-relative">
-                                                <input type="text" class="form-control" v-model="tags[idx]">
+                                                <input type="text" class="form-control" v-model.trim="tags[idx]">
                                                 <button type="button" class="btn border-0 btn-remove" @click="removeInput('tags', idx)">
                                                     <span class="material-icons">clear</span>
                                                 </button>
