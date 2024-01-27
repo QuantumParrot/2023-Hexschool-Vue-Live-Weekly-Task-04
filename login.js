@@ -2,7 +2,7 @@ import { createApp } from 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.13/vue
 
 // import components
 
-import Loader from './components/Loader.js';
+import Loader from './components/loader.js';
 
 // import mixins
 
