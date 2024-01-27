@@ -46,13 +46,11 @@ export default {
 
         saveProduct() {
 
-            // 新增了空欄位就當成沒有新增
-
-            this.product.imagesUrl = this.imagesUrl.filter(i => i);
-            this.product.tags = this.tags.filter(i => i);
+            this.product.imagesUrl = this.imagesUrl;
+            this.product.tags = this.tags;
 
             const isBlank = Object.keys(this.product)
-                            .some(key => key !== 'is_enabled' && !Array.isArray(key) && !this.product[key]);
+                            .some(key => key !== 'is_enabled' && !this.product[key]);
 
             if (isBlank) { this.toastAlert('請確實填寫所有欄位', 'warning') }
             else { this.$emit('save-product', this.product) }
