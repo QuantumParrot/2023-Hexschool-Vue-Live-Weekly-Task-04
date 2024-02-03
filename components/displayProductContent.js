@@ -16,11 +16,12 @@ export default {
             <div class="col-7 ps-0">
                 <div class="p-4 h-100 d-flex flex-column justify-content-between">
                     <div>
-                        <h3 class="fw-bold mb-4">
+                        <h3 class="fw-bold mb-3">
                         {{ display.title }}
                         <a href="#" class="float-end text-dark text-decoration-none" @click.prevent="$emit('remove-display')">
                         <span class="material-icons">clear</span></a>
                         </h3>
+                        <p class="text-muted fs-6 fst-italic">{{ display.subtitle }}</p>
                         <p class="text-muted fs-6">
                         <span class="badge bg-secondary px-3 me-3">{{ display.category }}</span>
                         <span>{{ display.content }}</span>

@@ -154,11 +154,15 @@ export default {
                                     <input type="text" id="title" class="form-control" v-model="product.title">
                                 </div>
                                 <div class="mb-3">
+                                    <label for="title" class="form-label">產品資訊</label>
+                                    <input type="text" id="title" class="form-control" v-model="product.subtitle">
+                                </div>
+                                <div class="mb-3">
                                     <label for="description" class="form-label">產品描述</label>
                                     <textarea id="description" class="form-control" cols="30" rows="5" v-model="product.description"></textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="content" class="form-label">產品說明</label>
+                                    <label for="content" class="form-label">產品規格</label>
                                     <textarea id="content" class="form-control" cols="30" rows="5" v-model="product.content"></textarea>                             
                                 </div>
                                 <div class="row mb-3">
