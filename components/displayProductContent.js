@@ -6,10 +6,10 @@ export default {
     <div class="card overflow-hidden rounded-2">
         <div class="row">
             <div class="col-5">
-                <div class="text-center">
+                <div class="h-100 pb-4 d-flex flex-column justify-content-between">
                     <img :src="display.imageUrl" :alt="display.title" class="card-img rounded-0 mb-3">
                     <div class="d-flex gap-3 overflow-hidden oveflow-x-scroll">
-                    <img class="display-img" v-for="img in display.imagesUrl" :key="img" :src="img" :alt="display.title" @click="display.imageUrl = img">
+                        <img class="display-img" v-for="img in display.imagesUrl" :key="img" :src="img" :alt="display.title" @click="display.imageUrl = img">
                     </div>
                 </div>
             </div>
@@ -26,12 +26,9 @@ export default {
                         <span class="badge bg-secondary px-3 me-3">{{ display.category }}</span>
                         <span>{{ display.content }}</span>
                         </p>
-                        <p>{{ display.description }}</p>
-                        <div class="d-flex gap-2" v-if="display.tags">
-                        <span class="badge bg-light px-3 py-2 text-muted" v-for="tag in display.tags" :key="tag">＃{{ tag }}</span>
-                        </div>
+                        <p class="description">{{ display.description }}</p>
                     </div>
-                    <div>
+                    <div class="alert bg-secondary-subtle mb-0">
                         <p class="mb-0">NT$ 
                         <span class="text-muted me-2" :class="{ 'text-decoration-line-through': display.origin_price !== display.price }">{{ display.origin_price }}</span>
                         <span>{{ display.price }} 元 ／ {{ display.unit }}</span>
