@@ -17,6 +17,8 @@ export default {
             imagesUrl: [],
             tags: [],
 
+            title: '',
+
         }
 
     },
@@ -25,11 +27,10 @@ export default {
 
     watch: {
 
-        tempProduct(current) { 
-            
-            // console.log(cur); // 除錯用，可以分別觀察傳值、傳參考時觸發監聽的時機
+        tempProduct(current) {
 
-            this.product = { ...current };
+            this.product = current;
+            this.title = current.title;
 
             this.imagesUrl = Array.isArray(current.imagesUrl) ? [ ...current.imagesUrl ] : [];
             this.tags = Array.isArray(current.tags) ? [ ...current.tags ] : [];
@@ -100,7 +101,7 @@ export default {
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="mb-0" v-if="tempProduct.title">{{ tempProduct.title }}</h5>
+                    <h5 class="mb-0" v-if="title">{{ title }}</h5>
                     <button type="button" class="btn-close" aria-label="Close" @click="hideModal" :disabled="buttonStatus"></button>
                 </div>
                 <div class="modal-body">
